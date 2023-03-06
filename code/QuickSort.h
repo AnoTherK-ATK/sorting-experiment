@@ -5,27 +5,28 @@
 
 std::mt19937 rd(std::chrono::steady_clock::now().time_since_epoch().count());
 
+//hàm sinh số ngẫu nhiên
 int Rand(int l, int h) {
-    assert(l <= h);
-    return l + rd() * 1LL * rd() % (h - l + 1);
+    return l + rd() * 1LL * rd() % (h - l + 1); 
 }
 
 template <typename T>
 void sort(T arr[] , int left, int right){
-    int pivot = arr[Rand(left, right)];
+    int pivot = arr[Rand(left, right)]; //ngẫu nhiên chọn pivot
     int l = left;
     int r = right;
     do{
-        while((l <= right) && (arr[l] < pivot))
+        while((l <= right) && (arr[l] < pivot)) //bỏ qua các phần tử nhỏ hơn pivot và nằm bên trái
             ++l;
-        while((r >= left) && (arr[r] > pivot))
+        while((r >= left) && (arr[r] > pivot)) //bỏ qua các phần tử lớn hơn pivot và nằm bên phải
             --r;
-        if(l > r) 
+        if(l > r) //nếu như chạy quá pivot, thoát
             break;
-        std::swap(arr[l], arr[r]);
-        ++l, --r;
+        std::swap(arr[l], arr[r]); //thay đổi vị trí 2 phần tử nằm khác bên của pivot
+        ++l, --r; //tiếp tục
     }while(l <= r);
-    if(left < r)
+    //chia thành các nửa để sắp xếp
+    if(left < r) 
         sort(arr, left, r);
     if(l < right)
         sort(arr, l, right);
