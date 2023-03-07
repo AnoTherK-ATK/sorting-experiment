@@ -1,5 +1,9 @@
 #include <bits/stdc++.h>
-
+#include <chrono>
+using namespace std;
+using std::chrono::high_resolution_clock;
+using std::chrono::duration_cast;
+using std::chrono::duration;
 
 namespace quicksort{
     #include "QuickSort.h"
@@ -13,33 +17,40 @@ namespace heapsort{
     #include "HeapSort.h"
 }
 
-template <typename F> 
-void benchmark(F func, double arr[], int N,const std::string& name){
-    using std::chrono::high_resolution_clock;
-    using std::chrono::duration_cast;
-    using std::chrono::duration;
-
+template <typename T> 
+void benchmark(T arr[], int N,const std::string& name){
     auto t1 = high_resolution_clock::now(); //thời gian trước khi thực hiện thuật toán
     if(name == "Quicksort")
-        func(arr, 0, N - 1);
+        quicksort::sort(arr, 0, N - 1);
     else if(name == "Mergesort")
-        func(arr, 0, N - 1);
+        mergesort::sort(arr, 0, N - 1);
     else if(name == "Heapsort")
-        func(arr, N);
+        heapsort::sort(arr, N);
     else
-        func(arr, arr + N);
+        std::sort(arr, arr + N);
     auto t2 = high_resolution_clock::now(); //thời gian sau khi thực hiện thuật toán
 
     duration<double, std::milli> ms_double = t2 - t1;
-    std::cout << name << "\t\t:" << ms_double << '\n';
+    std::cout << name << "\t\t: " << (ms_double) << "\n";
+}
+
+template <typename T>
+void init(T arr[], T ans[],int N){
+    for(int i = 0; i < N; ++i)
+        ans[i] = arr[i];
 }
 
 template <typename T>
 void startbench(T arr[], int N){
-    benchmark(quicksort::sort(), arr, N, "Quicksort");
-    benchmark(mergesort::sort(), arr, N, "Mergesort");
-    benchmark(heapsort::sort(), arr, N, "Heapsort");
-    benchmark(std::sort(), arr, N, "std::sort()");
+    T array[N + 2];
+    init(arr, array, N);
+    benchmark(array, N, "Quicksort");
+    init(arr, array, N);
+    benchmark(array, N, "Mergesort");
+    init(arr, array, N);
+    benchmark(array, N, "Heapsort");
+    init(arr, array, N);
+    benchmark(array, N, "std::sort()");
     
 }
 
