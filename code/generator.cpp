@@ -7,7 +7,7 @@ int main(int argc, char *argv[]){
     std::ofstream out1("../tests\\1-increasing.txt");
     for(int i = 0; i < 1000000; ++i){
         double value = i + rnd.next(0.0000, 0.9999);
-        out1 << value << ' ';
+        out1 << std::fixed << std::setprecision(4) << value << ' ';
     }
     out1.close();
 
@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
     std::ofstream out2("../tests\\2-decreasing.txt");
     for(int i = 1000000; i > 0; --i){
         double value = i + rnd.next(0.0000, 0.9999);
-        out2 << value << ' ';
+        out2 << std::fixed << std::setprecision(4) << value << ' ';
     }
     out2.close();
 
@@ -24,8 +24,8 @@ int main(int argc, char *argv[]){
         std::string file_name = "../tests\\" + std::to_string(tc) + "-random.txt";
         std::ofstream out(file_name);
         for(int i = 0; i < 1000000; ++i){
-            double value = rnd.next(0.0000, 999999.0000) + rnd.next(0.0000, 0.9999);
-            out << value << ' ';
+            double value = 1.0 * rnd.next(0.0000, 999999.0000) + (1.0 * rnd.next(0.0000, 0.9999) * rnd.next(0.0000, 0.9999));
+            out << std::fixed << std::setprecision(4) << value << ' ';
         }
         out.close();
     }

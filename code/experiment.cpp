@@ -17,6 +17,7 @@ namespace heapsort{
     #include "HeapSort.h"
 }
 
+
 template <typename T> 
 void benchmark(T arr[], int N, const std::string& name){
     auto t1 = high_resolution_clock::now(); //thời gian trước khi thực hiện thuật toán
@@ -45,6 +46,7 @@ template <typename T>
 void startbench(T arr[], int N){
     T *array = new T[N + 7]; 
     init<T>(arr, array, N);
+    std::cout << "quicsort\n";
     benchmark<T>(array, N, "Quicksort");
     init<T>(arr, array, N);
     benchmark<T>(array, N, "Mergesort");

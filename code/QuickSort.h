@@ -12,7 +12,7 @@ int Rand(int l, int h) {
 
 template <typename T>
 void sort(T arr[] , int left, int right){
-    int pivot = arr[Rand(left, right)]; //ngẫu nhiên chọn pivot
+    T pivot = arr[Rand(left, right)]; //ngẫu nhiên chọn pivot
     int l = left;
     int r = right;
     do{
