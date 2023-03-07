@@ -46,7 +46,6 @@ template <typename T>
 void startbench(T arr[], int N){
     T *array = new T[N + 7]; 
     init<T>(arr, array, N);
-    std::cout << "quicsort\n";
     benchmark<T>(array, N, "Quicksort");
     init<T>(arr, array, N);
     benchmark<T>(array, N, "Mergesort");

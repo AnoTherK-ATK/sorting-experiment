@@ -1,2 +1,5 @@
 # Sorting time execution experiment
-PLEASE HELP ME FIX THE CODE/EXPERIMENT.CPP
+This is another "small" project.
+
+## How to use
+Just download the `sorting-experiment.ipynb` and add it to Google Colab and run
