@@ -7,7 +7,7 @@ std::mt19937 rd(std::chrono::steady_clock::now().time_since_epoch().count());
 
 //hàm sinh số ngẫu nhiên
 int Rand(int l, int h) {
-    return l + rd() * 1LL * rd() % (h - l + 1); 
+    return l + (rd() >> 1) * 1LL * (rd() >> 1) % (h - l + 1); 
 }
 
 template <typename T>
@@ -24,7 +24,7 @@ void sort(T arr[] , int left, int right){
             break;
         std::swap(arr[l], arr[r]); //thay đổi vị trí 2 phần tử nằm khác bên của pivot
         ++l, --r; //tiếp tục
-    }while(l <= r);
+    } while(l <= r);
     //chia thành các nửa để sắp xếp
     if(left < r) 
         sort(arr, left, r);
