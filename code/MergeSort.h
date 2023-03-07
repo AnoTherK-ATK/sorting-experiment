@@ -6,7 +6,7 @@
 
 template <typename T>
 void sort(T arr[], int left, int right){
-    T MidArr[1000006] = {};
+    std::vector<T> MidArr(left + right + 2); //khởi tạo mảng trung gian để "trộn"
     if(right - left + 1 == 1) //mảng chỉ có 1 phần tử, không cần phải sắp xếp
         return;
     int mid = (left + right) / 2; //chọn phần giữa để chia mảng thành 2 phần
