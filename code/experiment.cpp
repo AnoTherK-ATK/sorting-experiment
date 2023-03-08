@@ -66,11 +66,6 @@ void input(const std::string& file){
 }
 
 signed main(){
-/*
-    input("input_1.txt");
-    std::cout << "Truc:\n";
-    startbench<double>(arr, 1'000'000);
-*/
     //test 1: increasing
     input("1-increasing.txt");
     std::cout << "test 1:\n"; 

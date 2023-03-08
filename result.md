@@ -18,7 +18,7 @@ Tất cả các code và tệp tin liên quan đều được để trong [**Git
 ## Bộ dữ liệu kiểm tra
 Được sinh ngẫu nhiên bằng code sử dụng thư viện [Testlib](https://github.com/MikeMirzayanov/testlib) của Mike Mirzayanov - Người sáng lập [Codeforces](https://codeforces.com/)
 
-Code sinh:
+Code sinh bộ dữ liệu:
 ```c++
 #include "testlib.h"
 #include <bits/stdc++.h>
@@ -46,8 +46,9 @@ int main(int argc, char *argv[]){
         std::string file_name = "../tests\\" + std::to_string(tc) + "-random.txt";
         std::ofstream out(file_name);
         for(int i = 0; i < 1000000; ++i){
-            double value = 1.0 * rnd.next(0.0000, 999999.0000)
-                 + (1.0 * rnd.next(0.0000, 0.9999) * rnd.next(0.0000, 0.9999));
+            double value = 1.0 * rnd.next(-1000000, 1000000) 
+                + (1.0 * rnd.next(0.0000, 0.9999) * rnd.next(0.0000, 0.9999) 
+                * rnd.next(0.0000, 0.9999));
             out << std::fixed << std::setprecision(4) << value << ' ';
         }
         out.close();
@@ -255,7 +256,6 @@ template <typename T>
 void startbench(T arr[], int N){
     T *array = new T[N + 7]; 
     init<T>(arr, array, N);
-    std::cout << "quicsort\n";
     benchmark<T>(array, N, "Quicksort");
     init<T>(arr, array, N);
     benchmark<T>(array, N, "Mergesort");
@@ -276,7 +276,6 @@ void input(const std::string& file){
 }
 
 signed main(){
-    
     //test 1: increasing
     input("1-increasing.txt");
     std::cout << "test 1:\n"; 
@@ -299,26 +298,46 @@ signed main(){
 }
 ```
 
-<div style="page-break-after: always;"></div>
-
 ## Kết quả thực nghiệm
-### Bảng dữ liệu (Đơn vị ms)
+
+### Khi chạy trên máy tính cá nhân (Intel(R) Core(TM) I5-6300U @ 2.4GHz)
+
+#### **Bảng dữ liệu thời gian thực hiện (Đơn vị ms)**
 
 | **Bộ test** | **Quicksort** | **Mergesort** | **Heapsort** | **std::sort()** |
 |:-----------:|:-------------:|:-------------:|:------------:|:---------------:|
-|    **1**    |    68.2218    |    170.504    |    101.369   |     21.4166     |
-|    **2**    |    99.0501    |    181.226    |    77.8732   |     24.3394     |
-|    **3**    |    78.4028    |    197.191    |    82.5971   |     23.7718     |
-|    **4**    |    87.6631    |    221.236    |    83.8544   |     23.7792     |
-|    **5**    |    74.9384    |    247.369    |    75.5021   |     20.3559     |
-|    **6**    |    70.8858    |    208.926    |    84.3462   |     23.4191     |
-|    **7**    |    71.6707    |    203.803    |    78.5044   |     25.3392     |
-|    **8**    |     77.259    |    197.443    |    73.8054   |      24.593     |
-|    **9**    |    89.3164    |    249.554    |    89.2753   |     15.5982     |
-|    **10**   |     66.18     |    147.516    |    64.5286   |     15.0978     |
+|    **1**    |    149.600    |    637.335    |    906.592   |     97.7447     |
+|    **2**    |    145.610    |    650.262    |    1394.27   |     80.7842     |
+|    **3**    |    350.064    |    1073.17    |    1296.54   |     311.167     |
+|    **4**    |    322.179    |    936.495    |    1400.30   |     367.018     |
+|    **5**    |    311.211    |    791.842    |    1210.77   |     271.275     |
+|    **6**    |    316.155    |    787.894    |    1195.81   |     267.329     |
+|    **7**    |    318.150    |    785.938    |    1203.78   |     270.274     |
+|    **8**    |    317.151    |    776.965    |    1201.79   |     266.290     |
+|    **9**    |    321.142    |    782.905    |    1219.70   |     271.273     |
+|    **10**   |    312.208    |    781.946    |    1222.73   |     268.244     |
 
-<div style="page-break-after: always;"></div>
+#### Biểu đồ dữ liệu
 
-### Biểu đồ dữ liệu
+<img src="https://i.imgur.com/E7K77EB.png" width = "50%" height = "50%"></img>
 
-<img src="https://i.imgur.com/hHZcimh.png" width = "60%" height = "60%"></img>
+### Khi chạy trên Google Colab (Intel(R) Xeon(R) CPU @ 2.20GHz )
+
+#### **Bảng dữ liệu thời gian thực hiện (Đơn vị ms)**
+
+| **Bộ test** | **Quicksort** | **Mergesort** | **Heapsort** | **std::sort()** |
+|:-----------:|:-------------:|:-------------:|:------------:|:---------------:|
+|    **1**    |    48.2204    |    124.061    |    63.2064   |     15.0937     |
+|    **2**    |    50.6284    |    120.826    |    76.6592   |     30.0654     |
+|    **3**    |    51.4487    |    119.376    |    64.9850   |     15.0266     |
+|    **4**    |    65.1794    |    139.575    |    65.6171   |     15.1032     |
+|    **5**    |    58.8711    |    117.969    |    62.4007   |     15.7191     |
+|    **6**    |    47.6169    |    132.112    |    68.1981   |     15.6353     |
+|    **7**    |    53.7565    |    118.071    |    66.7054   |     16.3768     |
+|    **8**    |    58.1719    |    117.169    |    78.9908   |     15.2907     |
+|    **9**    |    48.9238    |    124.349    |    70.4186   |     17.1982     |
+|    **10**   |    49.2638    |    119.653    |    66.2852   |     14.2872     |
+
+#### Biểu đồ dữ liệu
+
+<img src="https://i.imgur.com/OUV0f7f.png" width = "50%" height = "50%"></img>
