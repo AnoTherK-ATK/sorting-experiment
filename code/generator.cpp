@@ -24,7 +24,7 @@ int main(int argc, char *argv[]){
         std::string file_name = "../tests\\" + std::to_string(tc) + "-random.txt";
         std::ofstream out(file_name);
         for(int i = 0; i < 1000000; ++i){
-            double value = 1.0 * rnd.next(0.0000, 999999.0000) + (1.0 * rnd.next(0.0000, 0.9999) * rnd.next(0.0000, 0.9999));
+            double value = 1.0 * rnd.next(-1000000, 1000000) + (1.0 * rnd.next(0.0000, 0.9999) * rnd.next(0.0000, 0.9999) * rnd.next(0.0000, 0.9999));
             out << std::fixed << std::setprecision(4) << value << ' ';
         }
         out.close();
