@@ -18,44 +18,6 @@ Tất cả các code và tệp tin liên quan đều được để trong [**Git
 ## Bộ dữ liệu kiểm tra
 Được sinh ngẫu nhiên bằng code sử dụng thư viện [Testlib](https://github.com/MikeMirzayanov/testlib) của Mike Mirzayanov - Người sáng lập [Codeforces](https://codeforces.com/)
 
-Code sinh bộ dữ liệu:
-```c++
-#include "testlib.h"
-#include <bits/stdc++.h>
-int main(int argc, char *argv[]){
-    registerGen(argc, argv, 1);
-
-    //Increasing number
-    std::ofstream out1("../tests\\1-increasing.txt");
-    for(int i = 0; i < 1000000; ++i){
-        double value = i + rnd.next(0.0000, 0.9999);
-        out1 << std::fixed << std::setprecision(4) << value << ' ';
-    }
-    out1.close();
-
-    //Decreasing number
-    std::ofstream out2("../tests\\2-decreasing.txt");
-    for(int i = 1000000; i > 0; --i){
-        double value = i + rnd.next(0.0000, 0.9999);
-        out2 << std::fixed << std::setprecision(4) << value << ' ';
-    }
-    out2.close();
-
-    //Random number
-    for(int tc = 3; tc <= 10; ++tc){
-        std::string file_name = "../tests\\" + std::to_string(tc) + "-random.txt";
-        std::ofstream out(file_name);
-        for(int i = 0; i < 1000000; ++i){
-            double value = 1.0 * rnd.next(-1000000, 1000000) 
-                + (1.0 * rnd.next(0.0000, 0.9999) * rnd.next(0.0000, 0.9999) 
-                * rnd.next(0.0000, 0.9999));
-            out << std::fixed << std::setprecision(4) << value << ' ';
-        }
-        out.close();
-    }
-}
-```
-
 ## Phân tích các thuật toán sắp xếp
 ### Quicksort
 #### Mô tả
@@ -66,37 +28,7 @@ int main(int argc, char *argv[]){
 2. Chia mảng thành 2 phần với điểm chính giữa là `pivot`, các phần tử nhỏ hơn `pivot` sẽ nằm ở một phần và ngược lại, các phần tử lớn hơn `pivot` sẽ nằm ở phần còn lại.
 3. Với mỗi phần đã chia, ta thực hiện lại bước 1.
 
-#### Code cài đặt
-```c++
-std::mt19937 rd(std::chrono::steady_clock::now().time_since_epoch().count());
-
-//hàm sinh số ngẫu nhiên
-int Rand(int l, int h) {
-    return l + (rd() >> 1) * 1LL * (rd() >> 1) % (h - l + 1); 
-}
-
-template <typename T>
-void sort(T arr[] , int left, int right){
-    int pivot = arr[Rand(left, right)]; //ngẫu nhiên chọn pivot
-    int l = left;
-    int r = right;
-    do{
-        while((l <= right) && (arr[l] < pivot)) //bỏ qua các phần tử nhỏ hơn pivot và nằm bên trái
-            ++l;
-        while((r >= left) && (arr[r] > pivot)) //bỏ qua các phần tử lớn hơn pivot và nằm bên phải
-            --r;
-        if(l > r) //nếu như chạy quá pivot, thoát
-            break;
-        std::swap(arr[l], arr[r]); //thay đổi vị trí 2 phần tử nằm khác bên của pivot
-        ++l, --r; //tiếp tục
-    } while(l <= r);
-    //chia thành các nửa để sắp xếp
-    if(left < r) 
-        sort(arr, left, r);
-    if(l < right)
-        sort(arr, l, right);
-}
-```
+Qua nhiều lần sửa đổi thì đã có nhiều cách chọn `pivot` xuất hiện như: chọn phần tử đầu tiên/cuối cùng, chọn phần tử chính giữa, chọn phần tử trung vị. Nhưng tất cả cách chọn đó đều có thể dẫn đến trường hợp tệ nhất. Nên, cách chọn `pivot` trong bài viết này là chọn ngẫu nhiên
 
 #### Đánh giá
 - **Ưu điểm**
@@ -112,38 +44,6 @@ void sort(T arr[] , int left, int right){
 1. Giả sử ta có 2 mảng con $A$ và $B$ đã được sắp xếp, ta tạo thêm một mảng $C$ để "trộn" 2 mảng $A$ và $B$ sao cho sau khi "trộn" thì mảng $C$ cũng được sắp xếp.
 2. Nếu mảng $A$ hoặc $B$ chưa được sắp xếp thì ta chia mảng chưa sắp xếp thành 2 phần và quay lại bước 1.
 
-#### Code cài đặt
-```c++
-template <typename T>
-void sort(T arr[], int left, int right){
-    std::vector<T> MidArr(right - left + 1); //khởi tạo mảng trung gian để "trộn"
-    if(right - left + 1 == 1) //mảng chỉ có 1 phần tử, không cần phải sắp xếp
-        return;
-    int mid = (left + right) / 2; //chọn phần giữa để chia mảng thành 2 phần
-
-    //gọi hàm sắp xếp 2 nửa
-    sort(arr, left, mid);
-    sort(arr, mid + 1, right);
-
-    //"trộn" 2 nửa đã sắp xếp
-    int i = left, j = mid + 1; 
-    int cur = 0;// chỉ số của mảng trung gian
-    while(i <= mid || j <= right){
-        if(i > mid) //bên trái không còn phần tử
-            MidArr[cur++] = arr[j++];
-        else if(j > right) //bên phải không còn phần tử
-            MidArr[cur++] = arr[i++];
-        else if(arr[i] < arr[j]) //phần tử bên trái nhỏ hơn, ta cho vào mảng trước
-            MidArr[cur++] = arr[i++];
-        else //phần tử bên trái nhỏ hơn, ta cho vào mảng trước
-            MidArr[cur++] = arr[j++];
-    }
-
-    //đưa các giá trị ở mảng trung gian về mảng chính
-    for(int i = 0; i < cur; ++i)
-        arr[left + i] = MidArr[i];
-}
-```
 #### Đánh giá
 - **Ưu điểm**
     - Thuật toán chạy ổn định với độ phức tạp là $\mathcal{O}(N\log{}N)$
@@ -167,23 +67,7 @@ Heapsort sẽ thực hiện 2 công việc khác nhau:
 - **Sắp xếp**
     - Sau khi đã có được một cấu trúc max-heap như mong muốn, ta thực hiện việc đổi thứ tự các đỉnh nhỏ nhất và tạo heap lại với độ lớn nhỏ hơn ở các đỉnh chưa được lấy ra.
 
-#### Code cài đặt
-
-Trong C++, đã có sẵn cấu trúc dữ liệu cho Heapsort trong thư viện chuẩn như `priority_queue`, ta chỉ cần sử dụng.
-
-```c++
-template <typename T>
-void sort(T arr[], int N){ //ta cần độ dài của mảng
-    std::priority_queue< T, std::vector<T>, std::greater<T> > pq; 
-    //khai báo cấu trúc là giá trị nhỏ hơn sẽ nằm ở phía bên trái
-    for(int i = 0; i < N; ++i)
-        pq.push(arr[i]); //cho các phần tử của mảng vào priority queue
-    for(int i = 0; i < N; ++i){
-        arr[i] = pq.top(); //trả các phần tử đã sắp xếp trong priority queue ngược lại mảng
-        pq.pop(); //xoá phần tử đã trả khỏi priority queue
-    }
-}
-```
+Trong C++, đã có sẵn cấu trúc dữ liệu Heap trong thư viện chuẩn như `priority_queue` sử dụng Fibonacci Heap, ta chỉ cần khai báo để sử dụng.
 
 #### Đánh giá
 - **Ưu điểm**
@@ -195,7 +79,7 @@ void sort(T arr[], int N){ //ta cần độ dài của mảng
 
 ### `std::sort` của thư viện chuẩn C++
 #### Mô tả
-Đây là một thuật toán Introsort sắp xếp được kết hợp bởi 3 thuật toán sắp xếp khác nhau là Quicksort, Heapsort và Selectionsort. Các thuật toán như Heapsort và Selectionsort được sử dụng để loại bỏ các trường hợp tệ nhất của quicksort.
+Đây là thuật toán Introsort sắp xếp được kết hợp bởi 3 thuật toán sắp xếp khác nhau là Quicksort, Heapsort và Selectionsort. Các thuật toán như Heapsort và Selectionsort được sử dụng để loại bỏ các trường hợp tệ nhất của quicksort.
 
 #### Cài đặt
 Đã có sẵn hàm `std::sort` trong thư viện `algorithm` của C++:
@@ -207,96 +91,12 @@ std::sort(a, a + n);
 
 ### Code thực hiện thuật toán sắp xếp và đo thời gian:
 
-```c++
-#include <bits/stdc++.h>
-#include <chrono>
-// using namespace std;
-using std::chrono::high_resolution_clock;
-using std::chrono::duration_cast;
-using std::chrono::duration;
+Code thực hiện những công việc sau:
 
-namespace quicksort{
-    #include "QuickSort.h"
-}
-
-namespace mergesort{
-    #include "MergeSort.h"
-}
-
-namespace heapsort{
-    #include "HeapSort.h"
-}
-
-
-template <typename T> 
-void benchmark(T arr[], int N, const std::string& name){
-    auto t1 = high_resolution_clock::now(); //thời gian trước khi thực hiện thuật toán
-    if(name == "Quicksort")
-        quicksort::sort(arr, 0, N - 1);
-    else if(name == "Mergesort")
-        mergesort::sort(arr, 0, N - 1);
-    else if(name == "Heapsort")
-        heapsort::sort(arr, N);
-    else
-        std::sort(arr, arr + N);
-    auto t2 = high_resolution_clock::now(); //thời gian sau khi thực hiện thuật toán
-
-    duration<double, std::milli> ms_double = t2 - t1;
-    std::cout << name << "\t\t: " << ms_double.count() << "ms\n";
-}
-
-template <typename T>
-void init(T arr[], T ans[],int N){
-    for(int i = 0; i < N; ++i) {
-        ans[i] = arr[i];
-    }
-}
-
-template <typename T>
-void startbench(T arr[], int N){
-    T *array = new T[N + 7]; 
-    init<T>(arr, array, N);
-    benchmark<T>(array, N, "Quicksort");
-    init<T>(arr, array, N);
-    benchmark<T>(array, N, "Mergesort");
-    init<T>(arr, array, N);
-    benchmark<T>(array, N, "Heapsort");
-    init<T>(arr, array, N);
-    benchmark<T>(array, N, "std::sort()");
-    delete(array);
-}
-
-double arr[1'000'000];
-
-void input(const std::string& file){
-    std::ifstream in("../tests\\" + file);
-    for(int i = 0; i < 1000000; ++i){
-        in >> arr[i];
-    }
-}
-
-signed main(){
-    //test 1: increasing
-    input("1-increasing.txt");
-    std::cout << "test 1:\n"; 
-    startbench<double>(arr, 1'000'000);
-
-    //test 2: decreasing
-    input("2-decreasing.txt");
-    std::cout << "test 2:\n";
-    startbench<double>(arr, 1'000'000);
-
-    //test 3 - 10: random
-    for(int i = 3; i <= 10; ++i){
-        std::string suffix = "-random.txt";
-        std::string file = std::to_string(i) + suffix;
-        input(file);
-        std::cout << "test " << i << ":\n";
-        startbench<double>(arr, 1'000'000);
-    }
-    return 0;
-}
-```
+1. Đọc dữ liệu từ 10 bộ test
+2. Với từng bộ test, thực hiện khởi chạy lần lượt các thuật toán
+3. Lấy thông tin thời gian trước và sau khi khởi chạy thuận toán sắp xếp sau đó tính độ chênh lệch
+4. In thông báo kết quả ra màn hình
 
 ## Kết quả thực nghiệm
 
@@ -341,3 +141,9 @@ signed main(){
 #### Biểu đồ dữ liệu
 
 <img src="https://i.imgur.com/OUV0f7f.png" width = "50%" height = "50%"></img>
+
+## Tổng kết, nhận xét:
+- Trong 4 thuật toán sắp xếp, `std::sort()` trong thư viện chuẩn của C++ thể hiện được khả năng xử lý rất nhanh và ổn định qua các bộ test.
+- Quicksort cũng cho thấy một độ ổn định ở mức chấp nhận được.
+- Heapsort và Mergesort xử lý chậm và kém ổn định hơn rất nhiều so với Quicksort và `std::sort()`.
+- Ngoài ra, việc cài đặt Quicksort, Heapsort và `std::sort()` bằng ngôn ngữ C++ tương đối đơn giản. Dễ sử dụng giúp cho các lập trình có thể dễ dàng cài đặt và sử dụng.
