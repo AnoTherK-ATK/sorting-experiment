@@ -17,9 +17,17 @@ namespace heapsort{
     #include "HeapSort.h"
 }
 
+template <typename T>
+bool is_sorted(T arr[], int N, T sorted[]){
+    for(int i = 0; i < N; ++i){
+        if(arr[i] != sorted[i]) return 0;
+    }
+    return 1;
+}
+
 
 template <typename T> 
-void benchmark(T arr[], int N, const std::string& name){
+void benchmark(T arr[], int N, const std::string& name, T sorted[]){
     auto t1 = high_resolution_clock::now(); //thời gian trước khi thực hiện thuật toán
     if(name == "Quicksort")
         quicksort::sort(arr, 0, N - 1);
@@ -30,7 +38,10 @@ void benchmark(T arr[], int N, const std::string& name){
     else
         std::sort(arr, arr + N);
     auto t2 = high_resolution_clock::now(); //thời gian sau khi thực hiện thuật toán
-
+    if(!is_sorted<T>(arr, N, sorted)){
+        std::cout << name << "\t\t:" << "didn't sort the array\n";
+        return;
+    }
     duration<double, std::milli> ms_double = t2 - t1;
     std::cout << name << "\t\t: " << ms_double.count() << "ms\n";
 }
@@ -45,14 +56,17 @@ void init(T arr[], T ans[],int N){
 template <typename T>
 void startbench(T arr[], int N){
     T *array = new T[N + 7]; 
+    T *sorted = new T[N + 7];
+    init<T>(arr, sorted, N);
+    std::sort(sorted, sorted + N);
     init<T>(arr, array, N);
-    benchmark<T>(array, N, "Quicksort");
+    benchmark<T>(array, N, "Quicksort", sorted);
     init<T>(arr, array, N);
-    benchmark<T>(array, N, "Mergesort");
+    benchmark<T>(array, N, "Mergesort", sorted);
     init<T>(arr, array, N);
-    benchmark<T>(array, N, "Heapsort");
+    benchmark<T>(array, N, "Heapsort", sorted);
     init<T>(arr, array, N);
-    benchmark<T>(array, N, "std::sort()");
+    benchmark<T>(array, N, "std::sort()", sorted);
     delete(array);
 }
 
@@ -84,5 +98,4 @@ signed main(){
         std::cout << "test " << i << ":\n";
         startbench<double>(arr, 1'000'000);
     }
-    return 0;
 }

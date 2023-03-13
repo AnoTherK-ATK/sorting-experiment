@@ -95,8 +95,9 @@ Code thực hiện những công việc sau:
 
 1. Đọc dữ liệu từ 10 bộ test
 2. Với từng bộ test, thực hiện khởi chạy lần lượt các thuật toán
-3. Lấy thông tin thời gian trước và sau khi khởi chạy thuận toán sắp xếp sau đó tính độ chênh lệch
-4. In thông báo kết quả ra màn hình
+3. Kiểm tra xem mảng đã sắp xếp hay chưa
+4. Lấy thông tin thời gian trước và sau khi khởi chạy thuận toán sắp xếp sau đó tính độ chênh lệch
+5. In thông báo kết quả ra màn hình
 
 ## Kết quả thực nghiệm
 
@@ -119,7 +120,7 @@ Code thực hiện những công việc sau:
 
 #### Biểu đồ dữ liệu
 
-<img src="https://i.imgur.com/E7K77EB.png" width = "50%" height = "50%"></img>
+<img src="https://i.imgur.com/E7K77EB.png" width = "70%" height = "70%"></img>
 
 ### Khi chạy trên Google Colab (Intel(R) Xeon(R) CPU @ 2.20GHz )
 
@@ -140,7 +141,7 @@ Code thực hiện những công việc sau:
 
 #### Biểu đồ dữ liệu
 
-<img src="https://i.imgur.com/OUV0f7f.png" width = "50%" height = "50%"></img>
+<img src="https://i.imgur.com/OUV0f7f.png" width = "70%" height = "70%"></img>
 
 ## Tổng kết, nhận xét:
 - Trong 4 thuật toán sắp xếp, `std::sort()` trong thư viện chuẩn của C++ thể hiện được khả năng xử lý rất nhanh và ổn định qua các bộ test.
