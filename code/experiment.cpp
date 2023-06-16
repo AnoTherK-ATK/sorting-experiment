@@ -21,6 +21,10 @@ namespace heapsort{
     #include "HeapSort.h"
 }
 
+namespace introsort{
+    #include "IntroSort.h"
+}
+
 template <typename T>
 bool is_sorted(T arr[], int N, T sorted[]){
     for(int i = 0; i < N; ++i){
@@ -41,6 +45,8 @@ void benchmark(T arr[], int N, const std::string& name, T sorted[]){
         mergesort::sort(arr, 0, N - 1);
     else if(name == "Heapsort")
         heapsort::sort(arr, N);
+    else if(name == "Introsort")
+        introsort::introsort(arr, N);
     else
         std::sort(arr, arr + N);
     auto t2 = high_resolution_clock::now(); //thời gian sau khi thực hiện thuật toán
@@ -73,6 +79,8 @@ void startbench(T arr[], int N){
     benchmark<T>(array, N, "Mergesort", sorted);
     init<T>(arr, array, N);
     benchmark<T>(array, N, "Heapsort", sorted);
+    init<T>(arr, array, N);
+    benchmark<T>(array, N, "Introsort", sorted);
     init<T>(arr, array, N);
     benchmark<T>(array, N, "std::sort()", sorted);
     delete(array);

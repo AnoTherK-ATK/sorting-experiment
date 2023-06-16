@@ -3,9 +3,16 @@
 
 #include <bits/stdc++.h>
 
+int medianOfThree(int a, int b, int c){
+    if(a > b) std::swap(a, b);
+    if(a > c) std::swap(a, c);
+    if(b > c) std::swap(b, c);
+    return b;
+}
+
 template <typename T>
 void sort(T arr[] , int left, int right){
-    T pivot = arr[(left + right) >> 1]; //ngẫu nhiên chọn pivot
+    T pivot = arr[medianOfThree(left, right, (left + right) >> 1)]; //ngẫu nhiên chọn pivot
     int l = left;
     int r = right;
     do{

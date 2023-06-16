@@ -1,6 +1,7 @@
 #ifndef __QUICKSORTRANDOM_H__
 #define __QUICKSORTRANDOM_H__
 
+#include "testlib.h"
 #include <bits/stdc++.h>
 
 std::mt19937 rd(std::chrono::steady_clock::now().time_since_epoch().count());
