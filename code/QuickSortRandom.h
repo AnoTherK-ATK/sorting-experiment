@@ -1,11 +1,18 @@
-#ifndef __QUICKSORT_H__
-#define __QUICKSORT_H__
+#ifndef __QUICKSORTRANDOM_H__
+#define __QUICKSORTRANDOM_H__
 
 #include <bits/stdc++.h>
 
+std::mt19937 rd(std::chrono::steady_clock::now().time_since_epoch().count());
+
+//hàm sinh số ngẫu nhiên
+int Rand(int l, int h) {
+    return l + (rd() >> 1) * 1LL * (rd() >> 1) % (h - l + 1); 
+}
+
 template <typename T>
 void sort(T arr[] , int left, int right){
-    T pivot = arr[(left + right) >> 1]; //ngẫu nhiên chọn pivot
+    T pivot = arr[Rand(left, right)]; //ngẫu nhiên chọn pivot
     int l = left;
     int r = right;
     do{

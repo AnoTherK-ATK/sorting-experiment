@@ -5,6 +5,10 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration_cast;
 using std::chrono::duration;
 
+namespace quicksortrandom{
+    #include "QuickSortRandom.h"
+}
+
 namespace quicksort{
     #include "QuickSort.h"
 }
@@ -31,6 +35,8 @@ void benchmark(T arr[], int N, const std::string& name, T sorted[]){
     auto t1 = high_resolution_clock::now(); //thời gian trước khi thực hiện thuật toán
     if(name == "Quicksort")
         quicksort::sort(arr, 0, N - 1);
+    else if(name == "QuicksortRandom")
+        quicksortrandom::sort(arr, 0, N - 1);
     else if(name == "Mergesort")
         mergesort::sort(arr, 0, N - 1);
     else if(name == "Heapsort")
@@ -61,6 +67,8 @@ void startbench(T arr[], int N){
     std::sort(sorted, sorted + N);
     init<T>(arr, array, N);
     benchmark<T>(array, N, "Quicksort", sorted);
+    init<T>(arr, array, N);
+    benchmark<T>(array, N, "QuicksortRandom", sorted);
     init<T>(arr, array, N);
     benchmark<T>(array, N, "Mergesort", sorted);
     init<T>(arr, array, N);
