@@ -49,7 +49,7 @@ void benchmark(T arr[], int N, const std::string& name, T sorted[]){
         return;
     }
     duration<double, std::milli> ms_double = t2 - t1;
-    std::cout << ms_double.count() << "\t|\t";
+    std::cout << ms_double.count() << " \t|\t ";
 }
 
 template <typename T>
