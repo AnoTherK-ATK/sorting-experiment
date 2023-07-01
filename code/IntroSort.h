@@ -1,28 +1,80 @@
 ﻿#ifndef __INTROSORT_H__
 #define __INTROSORT_H__
-template <typename T>
-void introsort(T arr[], int N){
-    int maxdepth = 2 * log2(N);
-    std::function<void(T[], int, int, int)> quicksort = [&](T arr[], int l, int r, int depth){
-        if(l >= r) return;
-        if(depth == 0){
-            std::sort(arr + l, arr + r + 1);
+template<typename T>
+int Partition(T arr[], int low, int high) {
+    T pivot = arr[high];
+    int i = (low - 1);
+ 
+    for (int j = low; j <= high - 1; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            std::swap(arr[i], arr[j]);
+        }
+    }
+    std::swap(arr[i + 1], arr[high]);
+    return (i + 1);
+}
+ 
+// Function to perform insertion sort on a subarray
+template<typename T>
+void InsertionSort(T arr[], int low, int high) {
+    for (int i = low + 1; i <= high; i++) {
+        T key = arr[i];
+        int j = i - 1;
+ 
+        while (j >= low && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+ 
+        arr[j + 1] = key;
+    }
+}
+ 
+// Function to find the median of three elements
+template<typename T>
+T MedianOfThree(T arr[], int low, int high) {
+    int mid = low + (high - low) / 2;
+    if (arr[mid] < arr[low])
+        std::swap(arr[low], arr[mid]);
+    if (arr[high] < arr[low])
+        std::swap(arr[low], arr[high]);
+    if (arr[high] < arr[mid])
+        std::swap(arr[mid], arr[high]);
+    return arr[mid];
+}
+ 
+// Function to perform quicksort
+template<typename T>
+void QuickSort(T arr[], int low, int high, int depthLimit) {
+    while (low < high) {
+        if (depthLimit == 0) {
+            // If the recursion depth limit is reached, switch to heapsort
+            std::make_heap(arr + low, arr + high + 1);
+            std::sort_heap(arr + low, arr + high + 1);
             return;
         }
-        int i = l, j = r;
-        T pivot = arr[(l + r) >> 1];
-        while(i <= j){
-            while(arr[i] < pivot) ++i;
-            while(arr[j] > pivot) --j;
-            if(i <= j){
-                std::swap(arr[i], arr[j]);
-                ++i;
-                --j;
-            }
+ 
+        if (high - low < 16) {
+            // If the subarray size is small, switch to insertion sort
+            InsertionSort(arr, low, high);
+            return;
         }
-        if(l < j) quicksort(arr, l, j, depth - 1);
-        if(i < r) quicksort(arr, i, r, depth - 1);
-    };
-    quicksort(arr, 0, N - 1, maxdepth);
+ 
+        T pivot = MedianOfThree(arr, low, high);
+        int pivotIndex = Partition(arr, low, high);
+ 
+        // Recursive calls on smaller subarrays
+        QuickSort(arr, low, pivotIndex - 1, depthLimit - 1);
+        low = pivotIndex + 1;
+    }
+}
+ 
+// Function to perform introsort
+template<typename T>
+void sort(T arr[], int size) {
+    int depthLimit = 2 * log(size);
+ 
+    QuickSort(arr, 0, size - 1, depthLimit);
 }
 #endif
