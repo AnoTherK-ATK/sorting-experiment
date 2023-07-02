@@ -43,6 +43,18 @@ T MedianOfThree(T arr[], int low, int high) {
         std::swap(arr[mid], arr[high]);
     return arr[mid];
 }
+
+template<typename T>
+void heapSort(T arr[], int low, int high){
+    std::priority_queue<T, std::vector<T>, std::greater<T>> pq;
+    for(int i = low; i <= high; ++i){
+        pq.push(arr[i]);
+    }
+    for(int i = low; i <= high; ++i){
+        arr[i] = pq.top();
+        pq.pop();
+    }
+}
  
 // Function to perform quicksort
 template<typename T>
@@ -50,8 +62,7 @@ void QuickSort(T arr[], int low, int high, int depthLimit) {
     while (low < high) {
         if (depthLimit == 0) {
             // If the recursion depth limit is reached, switch to heapsort
-            std::make_heap(arr + low, arr + high + 1);
-            std::sort_heap(arr + low, arr + high + 1);
+            heapSort(arr, low, high);
             return;
         }
  

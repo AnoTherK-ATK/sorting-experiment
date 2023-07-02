@@ -26,33 +26,34 @@ void medianOf3Killer(vector<T>& a) {
 
 int main(int argc, char* argv[])
 {
-    ios::sync_with_stdio(0);
-    cin.tie(NULL);
-    cout.tie(NULL);
+    // ios::sync_with_stdio(0);
+    // cin.tie(NULL);
+    // cout.tie(NULL);
     //freopen("test.out","w",stdout);
     registerGen(argc, argv, 1);
-    int n = 10000000;
+    int n = 1000000;
     cout << fixed << setprecision(9);
     
     for(int d = 0; d < 5; ++d){
         for(int test = 1; test <= 5; ++test){
-            int fn = d*5 + test + 2;
+            int fn = d*5 + test;
             cerr << fn << '\n';
             string na = std::to_string(fn) + ".in";
             freopen(na.c_str(), "w", stdout);
             cout << n << '\n';
             res.clear();
+            v.clear();
             if(d == 0){
                 for(int i = 1; i <= n; ++i){
                     double x = rnd.next(1.0) * (i) + i;
-                    cout << x  << (i == n? '\n' : ' ');
+                    cout << x  << '\n';
                     res.push_back(x);
                 }
             }
             if(d == 1){
                 for(int i = n; i >= 1; --i){
                     double x = rnd.next(1.0) * (i) + i;
-                    cout << x << (i == 1? '\n' : ' ');
+                    cout << x << '\n';
                     res.push_back(x);
                 }
             }
@@ -60,7 +61,7 @@ int main(int argc, char* argv[])
                 long long x = rnd.next(1ll, 1000000000000000000LL);
                 for(int i = 1; i <= n; ++i){
                     double xx = rnd.next(1.0) * x + x;
-                    cout << xx << (i == n? '\n' : ' ');
+                    cout << xx << '\n';
                     res.push_back(xx);
                 }
             }
@@ -69,7 +70,7 @@ int main(int argc, char* argv[])
                     long long l = rnd.next(1ll, 1000000000000000000LL);
                     long long r = rnd.next(l + 1ll, 1000000000000000000LL);
                     double x = rnd.next(1.0) * (r - l) + l;
-                    cout << x << (i == n? '\n' : ' ');
+                    cout << x << '\n';
                     res.push_back(x);
                 }
             }
@@ -81,14 +82,14 @@ int main(int argc, char* argv[])
                 }
                 medianOf3Killer(v);
                 for(int i = 0; i < n; ++i){
-                    cout << v[i] << (i == n - 1? '\n':' ');
+                    cout << v[i] << '\n';
                 }
             }
             sort(res.begin(), res.end());
             na = std::to_string(fn) + ".out";
             freopen(na.c_str(), "w", stdout);
             for(auto i:res){
-                cout << i << ' ';
+                cout << i << '\n';
             }
         }
     }

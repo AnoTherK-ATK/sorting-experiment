@@ -3,3 +3,6 @@ code/experiment.exe
 code/generator.exe
 test/*.txt
 code/*.txt
+code/*.zip
+code/*.in
+code/*.out

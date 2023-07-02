@@ -78,14 +78,14 @@ void startbench(T arr[], int N){
     delete(array);
 }
 
-double arr[10'000'000];
+double arr[1'000'000];
 
 void input(const std::string& file){
     int n;
     
     std::ifstream in(file);
     in >> n;
-    for(int i = 0; i < 10000000; ++i){
+    for(int i = 0; i < 1000000; ++i){
         in >> arr[i];
     }
 }
@@ -100,7 +100,7 @@ signed main(){
         std::string file = std::to_string(i) + suffix;
         input(file);
         std::cout << i << " \t|\t ";
-        startbench<double>(arr, 10'000'000);
+        startbench<double>(arr, 1'000'000);
         std::cout << '\n';
     }
 }
