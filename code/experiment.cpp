@@ -49,7 +49,7 @@ void benchmark(T arr[], int N, const std::string& name, T sorted[]){
         return;
     }
     duration<double, std::milli> ms_double = t2 - t1;
-    std::cout << ms_double.count() << " \t|\t ";
+    std::cout << std::fixed << std::setprecision(3) << ms_double.count() << " \t|\t ";
 }
 
 template <typename T>
@@ -66,6 +66,8 @@ void startbench(T arr[], int N){
     init<T>(arr, sorted, N);
     std::sort(sorted, sorted + N);
     init<T>(arr, array, N);
+    benchmark<T>(array, N, "std::sort()", sorted);
+    init<T>(arr, array, N);
     benchmark<T>(array, N, "Quicksort", sorted);
     init<T>(arr, array, N);
     benchmark<T>(array, N, "Mergesort", sorted);
@@ -73,8 +75,6 @@ void startbench(T arr[], int N){
     benchmark<T>(array, N, "Heapsort", sorted);
     init<T>(arr, array, N);
     benchmark<T>(array, N, "Introsort", sorted);
-    init<T>(arr, array, N);
-    benchmark<T>(array, N, "std::sort()", sorted);
     delete(array);
 }
 
@@ -91,7 +91,7 @@ signed main(){
 
     //test 3 - 10: random
     //make a table in console to view result clearly
-    std::cout << "test \t|\t quicksort \t|\t mergesort \t|\t heapsort \t|\t introsort \t|\t std::sort()\n";
+    std::cout << "test \t|\t std::sort() \t|\t  quicksort \t|\t mergesort \t|\t heapsort \t|\t introsort \t|\t\n";
     for(int i = 3; i <= 27; ++i){
         std::string suffix = ".txt";
         std::string file = std::to_string(i) + suffix;

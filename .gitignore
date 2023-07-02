@@ -1,3 +1,5 @@
 ﻿.vscode/*
 code/experiment.exe
 code/generator.exe
+test/*.txt
+code/*.txt
