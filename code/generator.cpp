@@ -4,6 +4,7 @@ using namespace std;
 #define forw(i,a,b) for(int i=a;i<b;i++)
 
 vector<double> v;
+vector<double> res;
 
 template<typename T>
 void medianOf3Killer(vector<T>& a) {
@@ -25,47 +26,69 @@ void medianOf3Killer(vector<T>& a) {
 
 int main(int argc, char* argv[])
 {
+    ios::sync_with_stdio(0);
+    cin.tie(NULL);
+    cout.tie(NULL);
     //freopen("test.out","w",stdout);
     registerGen(argc, argv, 1);
-    int n = 1000000;
+    int n = 10000000;
     cout << fixed << setprecision(9);
-    cout << n << '\n';
+    
     for(int d = 0; d < 5; ++d){
         for(int test = 1; test <= 5; ++test){
             int fn = d*5 + test + 2;
-            string na = std::to_string(fn) + ".txt";
+            cerr << fn << '\n';
+            string na = std::to_string(fn) + ".in";
             freopen(na.c_str(), "w", stdout);
+            cout << n << '\n';
+            res.clear();
             if(d == 0){
                 for(int i = 1; i <= n; ++i){
-                    cout << rnd.next(1.0) * (i) + i << (i == n? '\n' : ' ');
+                    double x = rnd.next(1.0) * (i) + i;
+                    cout << x  << (i == n? '\n' : ' ');
+                    res.push_back(x);
                 }
             }
             if(d == 1){
                 for(int i = n; i >= 1; --i){
-                    cout << rnd.next(1.0) * (i) + i << (i == 1? '\n' : ' ');
+                    double x = rnd.next(1.0) * (i) + i;
+                    cout << x << (i == 1? '\n' : ' ');
+                    res.push_back(x);
                 }
             }
             if(d == 2){
                 long long x = rnd.next(1ll, 1000000000000000000LL);
                 for(int i = 1; i <= n; ++i){
-                    cout <<  rnd.next(1.0) * x + x << (i == n? '\n' : ' ');
+                    double xx = rnd.next(1.0) * x + x;
+                    cout << xx << (i == n? '\n' : ' ');
+                    res.push_back(xx);
                 }
             }
             if(d == 3){
                 for(int i = 1; i <= n; ++i){
                     long long l = rnd.next(1ll, 1000000000000000000LL);
                     long long r = rnd.next(l + 1ll, 1000000000000000000LL);
-                    cout << rnd.next(1.0) * (r - l) + l << (i == n? '\n' : ' ');
+                    double x = rnd.next(1.0) * (r - l) + l;
+                    cout << x << (i == n? '\n' : ' ');
+                    res.push_back(x);
                 }
             }
             if(d == 4){
                 for(int i = 1; i <= n; ++i){
-                    v.push_back(rnd.next(1.0) * (i) + i);
+                    double x = rnd.next(1.0) * (i) + i;
+                    v.push_back(x);
+                    res.push_back(x);
                 }
                 medianOf3Killer(v);
                 for(int i = 0; i < n; ++i){
                     cout << v[i] << (i == n - 1? '\n':' ');
                 }
+            }
+            sort(res.begin(), res.end());
+            na = std::to_string(fn) + ".out";
+            freopen(na.c_str(), "w", stdout);
+            for(auto i:res){
+                cout << i << ' ';
             }
         }
     }
